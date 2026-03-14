@@ -19,6 +19,7 @@ func main() {
 	rootCmd.AddCommand(cmd.InitCmd)
 	rootCmd.AddCommand(cmd.ExportCmd)
 	rootCmd.AddCommand(cmd.DeployCmd)
+	rootCmd.AddCommand(cmd.ServeCmd)
 
 	if err := rootCmd.Execute(); err != nil {
 		fmt.Fprintln(os.Stderr, err)
