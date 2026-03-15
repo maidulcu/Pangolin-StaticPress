@@ -34,9 +34,14 @@ func (e *Exporter) Export(urls []string) error {
 		return err
 	}
 
+	os.MkdirAll(e.distDir+"/images", 0755)
+	os.MkdirAll(e.distDir+"/assets", 0755)
+
 	sem := make(chan struct{}, e.concurrency)
 	var wg sync.WaitGroup
 	errChan := make(chan error, len(urls))
+	successCount := 0
+	errorCount := 0
 
 	for _, pageURL := range urls {
 		wg.Add(1)
@@ -46,13 +51,16 @@ func (e *Exporter) Export(urls []string) error {
 			defer wg.Done()
 			defer func() { <-sem }()
 
-			page, err := crawler.FetchPage(url)
+			page, err := crawler.FetchPage(url, e.distDir)
 			if err != nil {
+				errorCount++
 				errChan <- fmt.Errorf("failed to fetch %s: %w", url, err)
 				return
 			}
 
+			successCount++
 			if err := e.savePage(page.URL, page.HTML); err != nil {
+				errorCount++
 				errChan <- fmt.Errorf("failed to save %s: %w", url, err)
 			}
 		}(pageURL)
@@ -64,6 +72,12 @@ func (e *Exporter) Export(urls []string) error {
 	for err := range errChan {
 		fmt.Fprintf(os.Stderr, "Error: %v\n", err)
 	}
+
+	fmt.Printf("\n--- Export Summary ---\n")
+	fmt.Printf("Total URLs: %d\n", len(urls))
+	fmt.Printf("Successful: %d\n", successCount)
+	fmt.Printf("Failed: %d\n", errorCount)
+	fmt.Printf("Output directory: %s\n", e.distDir)
 
 	return nil
 }

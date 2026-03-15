@@ -12,11 +12,13 @@ A CLI tool to export WordPress sites to static HTML for deployment to S3, Netlif
 ## Features
 
 - Concurrent page crawling with goroutines
+- Automatic asset downloading (images, CSS, JS)
 - Automatic link rewriting (absolute → relative URLs)
 - Sitemap discovery (supports WordPress native sitemaps)
 - S3 deployment with automatic content-type detection
 - Local preview server
 - Web dashboard for export management
+- Export summary with success/fail counts
 - Config stored in `~/.pangolin/`
 
 ## Installation
