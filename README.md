@@ -190,14 +190,23 @@ staticpress/
 
 ## Roadmap
 
+### Free Features (Complete)
 - [x] MVP - CLI export to local folder
 - [x] WordPress Plugin for auth
 - [x] Preview mode (local server)
 - [x] Dashboard for export management
+- [x] Real-time progress updates
+- [x] Export/deploy history
+- [x] Settings management
+- [x] Asset downloading (images, CSS, JS)
+
+### Pro Features (Future)
 - [ ] Netlify deployment
 - [ ] Image optimization
 - [ ] Incremental exports
-- [ ] Auto-sync on content change
+- [ ] Auto-sync on content change (webhooks)
+- [ ] CDN cache invalidation
+- [ ] Multi-site support
 
 ## License
 
